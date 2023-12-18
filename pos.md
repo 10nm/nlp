@@ -51,11 +51,10 @@ Transformersによりベクトル化を行う。
 
 **参考画像1**
 
-![グラフ, 散布図
-自動的に生成された説明](media/image1.png)  
+<img src="media/image1.png" width="50%">  
+
  **参考画像2**  
-![グラフ, 散布図
-自動的に生成された説明](media/image2.png)
+<img src="media/image12.png" width="50%">  
 
 ## 3.  **仮説**
 
