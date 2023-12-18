@@ -2,7 +2,7 @@
 
 ## 研究ポスター
 docx: [Poster.docx](Poster.docx)  
-markdown: [Poster.md](Poster.md)
+markdown: [Poster.md](pos.md)
 
 ## ソースコード
 
