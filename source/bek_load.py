@@ -19,18 +19,26 @@ os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:4096"
 
 model = SentenceTransformer('sentence-transformers/paraphrase-xlm-r-multilingual-v1')
 
-with open('wk.pkl', "rb") as fIn:
+with open('wk-re.pkl', "rb") as fIn:
     stored_data = pickle.load(fIn)
     stored_sentences = stored_data['sentences']
     stored_embeddings = stored_data['embeddings']
     stored_ids = stored_data['id']
     print("file loaded")
 
-    query = "愛知県の知事"
+
+    ## Dumping
+    with open('wktrc-re.pkl', 'wb') as f:
+        emb = torch.cat(stored_embeddings)
+        pickle.dump(emb, f)
+        print("dumped!")
+
+    query="愛知県"
     query_embedding = model.encode(query, convert_to_tensor=True)
     print("query embedded")
 
-    with open('wktrc.pkl', 'rb') as f:
+    ## Dump load
+    with open('wktrc-re.pkl', 'rb') as f:
         emb = pickle.load(f)
         print("emb loaded")
 
