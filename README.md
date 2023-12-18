@@ -1,8 +1,8 @@
 # 課題研究公開レポ
 
 ## 研究ポスター
-docx: [Poster.docx](Poster.docx)  
-markdown: [Poster.md](pos.md)
+markdown形式: [pos.md](pos.md)  
+docx形式: [Poster.docx](Poster.docx)  
 
 ## ソースコード
 
