@@ -41,24 +41,29 @@ with open(sfile, "r",  encoding="utf-8") as f:
         json_load = json.loads(line)
         # 記事本文
         tex = json_load["text"]
+
+        if len(tex) < 400:
+            continue
+
         # 記事id
         artid = json_load["id"]
 
         text = tex[:700]
+
         raw_text = tex
 
         ## URLを削除
-        #rmurl = re.sub("https?://[\w/:%#\$&\?\(\)~\.=\+\-]+", "", tex)
+        rmurl = re.sub("https?://[\w/:%#\$&\?\(\)~\.=\+\-]+", "", tex)
 
         ## かっこを削除
-        #rmbr = re.sub('\(.*?\)', "", rmurl)
-        #rmbr = re.sub('（.*?）', "", rmbr)
+        rmbr = re.sub('\(.*?\)', "", rmurl)
+        rmbr = re.sub('（.*?）', "", rmbr)
 
         ## ^ から始まる文字列を削除
-        #tex = re.sub("\^ [a-z ]*", "", rmbr)
+        tex = re.sub("\^ [a-z ]*", "", rmbr)
 
         ##年月日の削除
-        #text = re.sub("\d{4}[/\.年]\d{1,2}[/\.月]\d{1,2}日?", "", tex)
+        text = re.sub("\d{4}[/\.年]\d{1,2}[/\.月]\d{1,2}日?", "", tex)
 
         vec = model.encode(text, convert_to_tensor=True, device="cuda")
         

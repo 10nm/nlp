@@ -29,11 +29,11 @@ with open('wk-re.pkl', "rb") as fIn:
 
     ## Dumping
     with open('wktrc-re.pkl', 'wb') as f:
-        emb = torch.cat(stored_embeddings)
+        emb = torch.stack(stored_embeddings)
         pickle.dump(emb, f)
         print("dumped!")
 
-    query="愛知県"
+    query="自然言語処理"
     query_embedding = model.encode(query, convert_to_tensor=True)
     print("query embedded")
 
@@ -45,9 +45,6 @@ with open('wk-re.pkl', "rb") as fIn:
     print(type(emb))
     cos_scores = util.cos_sim(query_embedding, emb)[0]
     top_results = torch.topk(cos_scores, k=10)
-
-    print((stored_sentences[0])[:50])
-    print("https://ja.wikipedia.org/w/index.php?curid=" + str(stored_ids[0]))
 
     for score, idx in zip(top_results[0], top_results[1]):
         i += 1
