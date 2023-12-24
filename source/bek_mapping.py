@@ -16,48 +16,23 @@ import os
 
 # i = 0
 
-# os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:4096"
+os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:4096"
 
-model = SentenceTransformer('sentence-transformers/paraphrase-xlm-r-multilingual-v1')
-
-
-
-
-
-
-
-with open('wk-re.pkl', "rb") as fIn:
+with open('topemb.pkl', "rb") as fIn:
     stored_data = pickle.load(fIn)
-    stored_sentences = stored_data['sentences']
     stored_embeddings = stored_data['embeddings']
-    stored_ids = stored_data['id']
+    stored_ids = stored_data['score']
     print("file loaded")
-
-    # Dumping
-    with open('wktrc-re.pkl', 'wb') as f:
-       emb = torch.stack(stored_embeddings)
-       pickle.dump(emb, f)
-       print("dumped!")
-
-sentences = ['This framework generates embeddings for each input sentence',
-             'Sentences are passed as a list of string.',
-             'The quick brown fox jumps over the lazy dog.',
-            ]
-
-print(sentences)
-
-sentences_embedding = model.encode(sentences)
-print(sentences_embedding.shape)
-print(sentences_embedding)
 
 tsne = TSNE(n_components=2, perplexity=1)  # Decrease the value of perplexity
 
-sentences_tsne = tsne.fit_transform(sentences_embedding)
+sentences_tsne = tsne.fit_transform(stored_embeddings)
 sentences_tsne = sentences_tsne.tolist()
 print(sentences_tsne)
 
 x = []
 y = []
+
 
 def plot_sentence_embedding(sentences_tsne):
     for i in range(len(sentences_tsne)):
@@ -66,7 +41,8 @@ def plot_sentence_embedding(sentences_tsne):
 
         x.append(sentences_tsne[i][0])
         y.append(sentences_tsne[i][1])
-        
+
+
 plot_sentence_embedding(sentences_tsne)
 
 print(x)
