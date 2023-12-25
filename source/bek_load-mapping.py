@@ -21,7 +21,7 @@ model = SentenceTransformer('sentence-transformers/paraphrase-xlm-r-multilingual
 
 with open('wk-re-rm.pkl', "rb") as fIn:
     stored_data = pickle.load(fIn)
-    # stored_sentences = stored_data['sentences']
+    stored_sentences = stored_data['sentences']
     stored_embeddings = stored_data['embeddings']
     stored_embeddings = torch.stack(stored_embeddings)
     stored_ids = stored_data['id']
@@ -49,14 +49,24 @@ top_results = torch.topk(cos_scores, k=30)
 topemb = []
 topids = []
 topscores = []
+toptitles = []
+
+topemb.append(query_embedding)
+topids.append(67)
+topscores.append(0)
+toptitles.append("自然言語処理")
 
 for score, idx in zip(top_results[0], top_results[1]):
     topemb.append(stored_embeddings[idx])
     topids.append(stored_ids[idx])
     topscores.append(score)
+    toptitles.append(stored_sentences[idx])
 
     i += 1
     print(str(i), ":\n")
+
+    print("title: ")
+    print(stored_sentences[idx], "\n")
 
     print("score: ")
     print(score, "\n")
@@ -71,4 +81,4 @@ topemb = torch.stack(topemb)
 
 
 with open('topemb.pkl', 'wb') as f:
-    pickle.dump({"embeddings": topemb, "id": topids, "score": topscores}, f)
+    pickle.dump({"embeddings": topemb, "id": topids, "score": topscores, "title": toptitles}, f)

@@ -16,11 +16,11 @@ import os
 
 # i = 0
 
-os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:4096"
+# os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:4096"
 
 with open('topemb.pkl', "rb") as fIn:
     stored_data = pickle.load(fIn)
-    stored_embeddings = stored_data['embeddings']
+    stored_embeddings = stored_data['embeddings'].cpu().numpy()
     stored_ids = stored_data['score']
     print("file loaded")
 
