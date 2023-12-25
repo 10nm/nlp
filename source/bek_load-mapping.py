@@ -13,6 +13,10 @@ import re
 import pickle
 import os
 
+import time
+import requests
+from bs4 import BeautifulSoup
+
 i = 0
 
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:4096"
@@ -50,13 +54,23 @@ topemb = []
 topids = []
 topscores = []
 toptitles = []
+<<<<<<< Updated upstream
 
 topemb.append(query_embedding)
 topids.append(67)
 topscores.append(0)
 toptitles.append("自然言語処理")
+=======
+>>>>>>> Stashed changes
 
 for score, idx in zip(top_results[0], top_results[1]):
+    url = 'https://ja.wikipedia.org/w/index.php?curid=' + str(stored_ids[idx])
+    r = requests.get(url)
+    soup = BeautifulSoup(r.text)
+    title=soup.find("title")
+    title = title.text.replace(" - Wikipedia","")
+
+    toptitles.append(title)
     topemb.append(stored_embeddings[idx])
     topids.append(stored_ids[idx])
     topscores.append(score)
@@ -75,10 +89,16 @@ for score, idx in zip(top_results[0], top_results[1]):
     print(stored_ids[idx], "\n")
 
     print("wiki page:")
-    print("https://ja.wikipedia.org/w/index.php?curid=" + str(stored_ids[idx]))
+    print(url, "\n")
+
+    time.sleep(5)
 
 topemb = torch.stack(topemb)
 
 
 with open('topemb.pkl', 'wb') as f:
+<<<<<<< Updated upstream
     pickle.dump({"embeddings": topemb, "id": topids, "score": topscores, "title": toptitles}, f)
+=======
+    pickle.dump({"embeddings": topemb, "id": topids, "score": topscores, "titles": toptitles}, f)
+>>>>>>> Stashed changes
