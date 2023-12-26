@@ -202,11 +202,8 @@ https://huggingface.co/sentence-transformers/stsb-xlm-r-multilingual
 
 ・データセット
 
-Wikipedia Dumps(日本語)
-
+Wikipedia Dumps(日本語)  
 <https://dumps.wikimedia.org/>
-
-
 
 <img src="media/qr.png">  
 
