@@ -78,11 +78,7 @@ for i, element in enumerate(elements):
     before_scale = nlp(element)
     print(i)
     print(before_scale)
-    scaled = scale_score(before_scale)
-    if scaled == 0:
-        stored_score.pop(i)
-        continue
-    scaled_list.append(scaled)
+    scaled_list.append(scale_score(before_scale))
     # scaled_list.append(before_scale)
 
 import itertools
@@ -106,26 +102,21 @@ df = pd.DataFrame(
     }
 )
 
-import uuid
+df.to_pickle('scaled.pkl')
+df = pd.read_pickle('scaled.pkl')
 
-uid = str((uuid.uuid4())[:8])
+print(df)
 
-filename = 'scaled' + uid + '.pkl'
-df.to_pickle(filename)
-# df = pd.read_pickle(filename)
+sns.stripplot(x='stored_score', y='scaled_list', data=df, alpha=0.01, color='red')
 
-# print(df)
-
-# sns.stripplot(x='stored_score', y='scaled_list', data=df, alpha=0.01, color='red')
-
-# # plt.scatter(scaled_list, stored_score, alpha=0.5)
-# # # sns.stripplot(x=scaled_list, y=stored_score, alpha=0.5, color='red')
-# # plt.ylabel('レビューのスコア')
-# # plt.xlabel('ネガティブ/ポジティブのスコア')
-# plt.yticks([-1, -0.5, 0 , 0.5, 1])
+# plt.scatter(scaled_list, stored_score, alpha=0.5)
+# # sns.stripplot(x=scaled_list, y=stored_score, alpha=0.5, color='red')
+# plt.ylabel('レビューのスコア')
+# plt.xlabel('ネガティブ/ポジティブのスコア')
+plt.yticks([-1, -0.5, 0 , 0.5, 1])
 
 
-# import datetime
-# savename = 'scatter_plot_' + datetime.datetime.now().strftime("%Y%m%d_%H%M%S") + '.png'
-# plt.savefig(savename)
-# plt.show()
+import datetime
+savename = 'scatter_plot_' + datetime.datetime.now().strftime("%Y%m%d_%H%M%S") + '.png'
+plt.savefig(savename)
+plt.show()
